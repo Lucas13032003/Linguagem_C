@@ -123,6 +123,9 @@
     
     }
 
+    whilhe(1) = infinito;
+    
+
 **do-While**
     
     do{
