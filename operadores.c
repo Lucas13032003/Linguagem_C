@@ -15,7 +15,7 @@ int main(){
     div = A/B;
 
     printf ("Resultados:\n");
-    printf ("Soma: %d\n", soma);
+    printf ("Soma: %p\n", &soma);
     printf ("Subtração: %d\n", subr);
     printf ("Multiplicação: %d\n", mult);
     printf ("Divisão: %d\n", div);

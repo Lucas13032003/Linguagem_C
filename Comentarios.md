@@ -164,7 +164,7 @@
 
     <tipo> <nome> [<tamanho>] = {<v1>, <v2>, ... , <vn>};
 
-# String
+## String
 \0 --> ecerra a string/texto
 
 Para um texto de 10 caractere iremos utilizar 11.
@@ -176,5 +176,49 @@ Para um texto de 10 caractere iremos utilizar 11.
     - scanf("%s", <str>);
 - Sintaxe aprimorada:
     - scanf("%<tam.-1>[^\n]s", <str>); 
+
+
+## stdin:
+Entrada de dados padrão;
+    - Teclado;
+
+## puts
+imprime sting;
+
+## fflush
+limpa o (stdin);
+
+## gets
+(string),  ele não limita o tammnho da strng
+
+## Fgets
+
+(string, <tamanho(leva em consideração o espaço do \0)>, stdin);
+
+## Blibioteca <string.h>
+
+# Structs
+
+- Definindo novo tipo
+    - typedef
+- Declara variáveis de novo tipo
+- Acessando membros de uma variável struc
+
+## Structs (registros)
+- sintaxe de definição
+
+    struct<novo_tipo>{
+        <tipo1> <campo1>
+        <tipo2> <campo2>
+        ...
+        <tipoN> <campoN>
+
+    };
+
+
+- typedef: renomeiaum indetificador
+
+# Ponteiro:
+
 
 
