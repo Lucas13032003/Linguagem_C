@@ -2,7 +2,7 @@
 #include <string.h>
 #include <locale.h>
 
-#define TAM 50
+#define TAM 10
 #define PES 3
 
 struct tipo_pessoa {
@@ -24,7 +24,7 @@ int main() {
         printf("Insira os dados para a Pessoa %d:\n", i + 1);
 
         printf("Nome: ");
-        scanf(" %49[^\n]", lista[i].nome);
+        scanf(" %49[^\n]s", lista[i].nome);
 
         printf("Peso: ");
         scanf("%f", &lista[i].peso);
