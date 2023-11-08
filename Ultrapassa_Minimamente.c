@@ -1,29 +1,45 @@
 #include <stdio.h>
+#include <stdlib.h>
+// Versão correta!
+void ultrapassa_minimamente(int *number, int limit, int index, int size)
+{
+    if ((index) < size)
+    {
+        int sum = 0;
 
-int main() {
-    int limite;
-    scanf("%d", &limite);
-
-    int valor;
-    int soma = 0;
-    int encontrado = 0;
-
-    while (1) {
-        scanf("%d", &valor);
-
-        if (valor == 0) {
-            break;
+        while (sum <= limit && index < size)
+        {
+                sum += number[index];
+                (index)++;
         }
 
-        if (soma + valor >= limite) {
-            encontrado = valor;
-            soma = 0;
-        } else {
-            soma += valor;
-        }
+        ultrapassa_minimamente(number, limit, index, size);
+
+        if ((index) < size)
+        {
+            printf("%d\n", number[index - 1]);
+    }
+}
+}
+
+int main(){
+    
+    int *number = NULL;
+    int numero = 1;
+    int capacity = 0;
+    int limit, index = 0;
+
+    while (numero != 0)
+    {
+        capacity++;
+        scanf("%d", &numero);
+        number = realloc(number, capacity * sizeof(int));
+        number[capacity - 1] = numero;
     }
 
-    printf("%d\n", encontrado);
+    scanf("%d", &limit);
+
+    ultrapassa_minimamente(number, limit, index, capacity);
 
     return 0;
 }

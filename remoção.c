@@ -18,27 +18,32 @@ int remove_depois(celula *p) {
 }
 
 void remove_elemento(celula *le, int x) {
-    celula *temp = le;
-    while (temp->prox != NULL && temp->prox->dado != x) {
-        temp = temp->prox;
+    celula *anterior = le;
+    celula *atual = le->prox;
+
+    while (atual != NULL && atual->dado != x) {
+        anterior = atual;
+        atual = atual->prox;
     }
 
-    if (temp->prox != NULL) {
-        celula *remover = temp->prox;
-        temp->prox = remover->prox;
-        free(remover);
+    if (atual != NULL) {
+        anterior->prox = atual->prox;
+        free(atual);
     }
 }
 
 void remove_todos_elementos(celula *le, int x) {
-    celula *temp = le;
-    while (temp->prox != NULL) {
-        if (temp->prox->dado == x) {
-            celula *remover = temp->prox;
-            temp->prox = remover->prox;
-            free(remover);
+    celula *anterior = le;
+    celula *atual = le->prox;
+
+    while (atual != NULL) {
+        if (atual->dado == x) {
+            anterior->prox = atual->prox;
+            free(atual);
+            atual = anterior->prox;
         } else {
-            temp = temp->prox;
+            anterior = atual;
+            atual = atual->prox;
         }
     }
 }
