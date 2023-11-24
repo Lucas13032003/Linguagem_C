@@ -111,7 +111,7 @@ int main() {
 
     printf("Digite a prioridade:");
     scanf("%d", & prio);
-
+    printf("\n");
     adicionarItem(fila, codigo, prio);
     }
 
