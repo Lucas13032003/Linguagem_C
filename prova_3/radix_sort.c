@@ -2,7 +2,7 @@
 #include <string.h>
 
 #define maxstring 101
-#define bitsbyte 8
+#define bitsbyte 80
 #define R (1 << bitsbyte)
 
 int digit(int x, int d) {
