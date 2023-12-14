@@ -1,44 +1,34 @@
 #include <stdio.h>
 
-// Função de busca binária que retorna o índice tal que arr[indice - 1] < x <= arr[indice]
-int buscaBinaria(int arr[], int tamanho, int x) {
-    int esquerda = 0;
-    int direita = tamanho;
+int buscaBinaria(int *v, int inicio, int fim, int x) {
+    while (inicio < fim) {
+        int meio = inicio + (fim - inicio) / 2;
 
-    while (esquerda < direita) {
-        int meio = esquerda + (direita - esquerda) / 2;
-
-        if (arr[meio] <= x) {
-            esquerda = meio + 1;
+        if (v[meio] < x) {
+            inicio = meio + 1;
         } else {
-            direita = meio;
+            fim = meio;
         }
     }
 
-    return esquerda;
+    return inicio;
 }
 
 int main() {
-    int n, q;
+    int N, M;
+    scanf("%d %d", &N, &M);
 
-    // Leitura de n e q
-    scanf("%d %d", &n, &q);
-
-    // Leitura do conjunto de dados
-    int conjunto[n];
-    for (int i = 0; i < n; i++) {
+    int conjunto[N];
+    for (int i = 0; i < N; i++) {
         scanf("%d", &conjunto[i]);
     }
 
-    // Processamento das consultas
-    for (int i = 0; i < q; i++) {
-        int consulta;
-        scanf("%d", &consulta);
+    for (int i = 0; i < M; i++) {
+        int x;
+        scanf("%d", &x);
 
-        // Busca binária
-        int indice = buscaBinaria(conjunto, n, consulta);
+        int indice = buscaBinaria(conjunto, 0, N, x);
 
-        // Imprime o resultado
         printf("%d\n", indice);
     }
 

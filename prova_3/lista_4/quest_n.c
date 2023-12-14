@@ -1,104 +1,127 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-// Estrutura para representar um candidato
-struct Candidato {
-    int codigo;
-    int votos;
-};
+#define ull unsigned long long
+#define less(a, b) (a.value == b.value ? a.key > b.key : a.value > b.value)
+#define swap(a, b)  
+    {               
+        Item t = a; 
+        a = b;      
+        b = t;      
+    }
+#define cmpswap(a, b) 
+    if (less(b, a))   
+    swap(a, b)
 
-// Função de comparação para qsort
-int compararCandidatos(const void *a, const void *b) {
-    return ((struct Candidato *)b)->votos - ((struct Candidato *)a)->votos;
+typedef struct
+{
+    int key, value;
+} Item;
+
+int partition(Item *v, int l, int r)
+{
+    Item pivot = v[r];
+    int j = l;
+    for (int k = l; k < r; k++)
+        if (less(v[k], pivot))
+        {
+            swap(v[k], v[j]);
+            j++;
+        }
+    swap(v[j], v[r]);
+    return j;
 }
 
-int main() {
-    int senadores, depFed, depEst;
-    scanf("%d %d %d", &senadores, &depFed, &depEst);
+void quicksort(Item *v, int l, int r)
+{
+    if (r <= l)
+        return;
 
-    // Inicializa a contagem de votos
-    int votosValidos = 0, votosInvalidos = 0;
+    cmpswap(v[(l + r) / 2], v[r]);
+    cmpswap(v[l], v[(l + r) / 2]);
+    cmpswap(v[r], v[(l + r) / 2]);
 
-    // Inicializa os arrays de candidatos para cada cargo
-    struct Candidato presidente = {0, 0};
-    struct Candidato senador[senadores];
-    struct Candidato depFed[depFed];
-    struct Candidato depEst[depEst];
+    int m = partition(v, l, r);
+    quicksort(v, l, m - 1);
+    quicksort(v, m + 1, r);
+}
 
-    // Leitura dos votos
-    int voto;
-    while (scanf("%d", &voto) == 1) {
-        if (voto >= 0) {  // Voto válido
-            votosValidos++;
+Item ps[91], ss[901], dfs[9001], des[90001];
+int pn = 0, sn = 0, dfn = 0, den = 0;
 
-            // Contabiliza os votos para cada cargo
-            int partido = voto / 10000;
-            if (partido == presidente.codigo) {
-                presidente.votos++;
-            } else if (partido > 0 && partido < 100) {
-                for (int i = 0; i < senadores; i++) {
-                    if (senador[i].codigo == partido) {
-                        senador[i].votos++;
-                        break;
-                    } else if (senador[i].codigo == 0) {
-                        senador[i].codigo = partido;
-                        senador[i].votos = 1;
-                        break;
-                    }
-                }
-            } else if (partido >= 100 && partido < 1000) {
-                for (int i = 0; i < depFed; i++) {
-                    if (depFed[i].codigo == partido) {
-                        depFed[i].votos++;
-                        break;
-                    } else if (depFed[i].codigo == 0) {
-                        depFed[i].codigo = partido;
-                        depFed[i].votos = 1;
-                        break;
-                    }
-                }
-            } else if (partido >= 1000 && partido < 10000) {
-                for (int i = 0; i < depEst; i++) {
-                    if (depEst[i].codigo == partido) {
-                        depEst[i].votos++;
-                        break;
-                    } else if (depEst[i].codigo == 0) {
-                        depEst[i].codigo = partido;
-                        depEst[i].votos = 1;
-                        break;
-                    }
-                }
-            }
-        } else {  // Voto inválido
-            votosInvalidos++;
+void solve()
+{
+    long long s, f, e;
+    scanf(" %lld %lld %lld", &s, &f, &e);
+
+    long long valid = 0, invalid = 0, totalp = 0;
+    for (int x, l; scanf("%d%n", &x, &l) == 1;)
+    {
+        if (x < 0)
+        {
+            invalid++;
+            continue;
         }
+
+        switch (l)
+        {
+        case 3:
+            ps[x - 10].key = x;
+            ps[x - 10].value++;
+            totalp++;
+            break;
+        case 4:
+            ss[x - 100].key = x;
+            ss[x - 100].value++;
+            break;
+        case 5:
+            dfs[x - 1000].key = x;
+            dfs[x - 1000].value++;
+            break;
+        default:
+            des[x - 10000].key = x;
+            des[x - 10000].value++;
+        }
+        valid++;
     }
 
-    // Ordena os candidatos por votos
-    qsort(senador, senadores, sizeof(struct Candidato), compararCandidatos);
-    qsort(depFed, depFed, sizeof(struct Candidato), compararCandidatos);
-    qsort(depEst, depEst, sizeof(struct Candidato), compararCandidatos);
+    for (int i = 0; i < 91; i++)
+        if (ps[i].value)
+            ps[pn++] = ps[i];
+    for (int i = 0; i < 901; i++)
+        if (ss[i].value)
+            ss[sn++] = ss[i];
+    for (int i = 0; i < 9001; i++)
+        if (dfs[i].value)
+            dfs[dfn++] = dfs[i];
+    for (int i = 0; i < 90001; i++)
+        if (des[i].value)
+            des[den++] = des[i];
 
-    // Verifica se há segundo turno para o presidente
-    if (presidente.votos * 2 <= votosValidos) {
-        printf("%d %d\n", votosValidos, votosInvalidos);
+    printf("%lld %lld\n", valid, invalid);
+
+    quicksort(ps, 0, pn - 1);
+    quicksort(ss, 0, sn - 1);
+    quicksort(dfs, 0, dfn - 1);
+    quicksort(des, 0, den - 1);
+
+    if ((double)ps[0].value / totalp >= .51)
+        printf("%d\n", ps[0].key);
+    else
         printf("Segundo turno\n");
-    } else {
-        printf("%d %d\n", votosValidos, votosInvalidos);
-        printf("%d\n", presidente.codigo);
-        for (int i = 0; i < senadores; i++) {
-            printf("%d ", senador[i].codigo);
-        }
-        printf("\n");
-        for (int i = 0; i < depFed; i++) {
-            printf("%d ", depFed[i].codigo);
-        }
-        printf("\n");
-        for (int i = 0; i < depEst; i++) {
-            printf("%d ", depEst[i].codigo);
-        }
-        printf("\n");
-    }
+
+    for (int i = 0; i < s; i++)
+        printf("%d%c", ss[i].key, " \n"[i == s - 1]);
+    for (int i = 0; i < f; i++)
+        printf("%d%c", dfs[i].key, " \n"[i == f - 1]);
+    for (int i = 0; i < e; i++)
+        printf("%d%c", des[i].key, " \n"[i == e - 1]);
+}
+
+int main()
+{
+    solve();
 
     return 0;
 }
